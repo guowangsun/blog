@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+	Read Only by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>孙国旺的博客</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../assets/css/main.css"/>
+    <link rel="stylesheet" href="../styles/dracula.css">
+    <script src="../highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<section id="header">
+    <header>
+        <span class="image avatar"><img src="../images/qq_tou_xiang.jpg" alt=""/></span>
+        <h1 id="logo"><a href="#">孙国旺</a></h1>
+        <p>guowang.sgw@gmail.com</p>
+    </header>
+    <nav id="nav">
+        <ul>
+            <li><a href="#two">删除线上日志文件</a></li>
+        </ul>
+    </nav>
+    <footer>
+        <ul class="icons">
+            <li><a href="https://github.com/guowangsun" class="icon fa-github"><span class="label">Github</span></a>
+            </li>
+        </ul>
+    </footer>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+
+        <!-- Two -->
+        <section id="two">
+            <div class="container">
+                <h3>删除线上日志文件</h3>
+                <article>清空日志文件，使用/dev/null覆盖日志文件 <code>cp /dev/null file.log</code> 不使用rm file.log
+                    的原因：当一个程序占用要删除文件的时候rm只是让文件看不到了，磁盘并没有释放。
+                    使用cp /dev/null file.log会释放磁盘。实验过程如下
+                </article>
+                <div class="features">
+                    <article></article>
+                    <article>
+                        <h4>使用rm删除文件</h4>
+                        新建一个100M大小的文件，并使用less打开
+                        <pre>
+                        <code>dd if=/dev/zero of=file.log bs=100M count=1
+less file.log</code></pre>
+                        新建一个窗口进行实验<br>
+                        <img src="../images/rmlog.png" alt=""/>
+                        <p>
+                            先查看了当前磁盘使用情况，磁盘使用了19797M，当执行完rm之后，磁盘还是使用了19797M。因为less命令占用着文件，所以磁盘没有被释放。当less命令退出之后，磁盘使用变回了19697M，正好是文件的大小，文件占用磁盘被释放
+                        </p>
+                    </article>
+                    <article>
+                        <h4>使用cp /dev/null file.log删除文件</h4>
+                        新建一个100M大小的文件，并使用less打开
+                        <pre>
+                        <code>dd if=/dev/zero of=file.log bs=100M count=1
+less file.log</code></pre>
+                        新建一个窗口进行实验<br>
+                        <img src="../images/cplog.png" alt=""/>
+                        <p>
+                            同上个实验一样先新建了文件，然后查看使用情况。磁盘使用19797M，当执行完cp /dev/null file.log，再次查看磁盘使用了19697M，磁盘已经被释放。
+                            这种场景经常处理线上日志文件，当程序占用着日志文件又不能停止程序时，可以使用cp /dev/null file.log来清理磁盘。
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+            <ul class="copyright">
+                <li>&copy; Untitled. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/jquery.scrollex.min.js"></script>
+<script src="../assets/js/jquery.scrolly.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+
+</body>
+</html>
